@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>짝수 홀수 확인기</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 350px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2em;
+            color: #4CAF50;
+        }
+        p {
+            margin: 10px 0;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: calc(100% - 22px);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #d9534f;
+        }
+        img {
+            width: 100%; /* 이미지 크기 */
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>짝수 홀수 확인기</h1>
+        <p>숫자를 입력하세요:</p>
+        <input type="number" id="numberInput" placeholder="숫자 입력">
+        <button id="checkButton">확인</button>
+        <p id="message"></p>
+        <img id="resultImage" src="https://i.postimg.cc/tJZ6KNLz/2024-12-01-4-16-37.png" alt="결과 이미지">
+    </div>
+
+    <script>
+        const numberInput = document.getElementById('numberInput');
+        const checkButton = document.getElementById('checkButton');
+        const message = document.getElementById('message');
+        const resultImage = document.getElementById('resultImage');
+
+        checkButton.addEventListener('click', function() {
+            let userInput = numberInput.value;
+            let number = parseInt(userInput);
+
+            if (isNaN(number)) {
+                message.innerText = '유효한 숫자를 입력해주세요.';
+                resultImage.src = "https://i.postimg.cc/8cMdYVJH/2024-12-01-4-21-35.png"; // 기본 이미지
+                return;
+            }
+
+            if (number % 2 === 0) {
+                message.innerText = `${number}는 짝수입니다.`;
+                resultImage.src = "https://i.postimg.cc/JtXbk5xh/even.png"; // 짝수 이미지 URL
+            } else {
+                message.innerText = `${number}는 홀수입니다.`;
+                resultImage.src = "https://i.postimg.cc/y3hgrnpX/odd.png"; // 홀수 이미지 URL
+            }
+
+            numberInput.value = '';
+        });
+    </script>
+</body>
+</html>
