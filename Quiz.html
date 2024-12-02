@@ -3,95 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>문제 맞추기 게임</title>
+    <title>짝수 홀수 확인기 및 문제 맞추기 게임</title>
     <style>
         body {
-            font-family: 'Noto Sans KR', sans-serif; /* 한국어에 적합한 폰트 */
+            font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5; /* 배경색 */
-            color: #333; /* 기본 텍스트 색상 */
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         header {
-            background-color: #1c1c1c; /* 헤더 배경색 */
-            color: white; /* 헤더 텍스트 색상 */
+            background-color: #1c1c1c;
+            color: white;
             padding: 20px;
             text-align: center;
+            width: 100%;
         }
         h1 {
             margin: 0;
             font-size: 24px;
         }
         .container {
-            max-width: 600px; /* 최대 너비 */
-            margin: 50px auto; /* 중앙 정렬 */
+            max-width: 600px;
+            margin: 20px auto;
             padding: 20px;
-            background-color: white; /* 카드 배경색 */
-            border-radius: 8px; /* 모서리 둥글게 */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none; /* 기본적으로 숨김 */
         }
-        input[type="text"] {
-            width: 100%; /* 입력창 너비 */
+        input[type="number"], input[type="text"] {
+            width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #ccc; /* 테두리 색상 */
-            border-radius: 4px; /* 모서리 둥글게 */
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         button {
-            background-color: #1c1c1c; /* 버튼 배경색 */
-            color: white; /* 버튼 텍스트 색상 */
+            background-color: #1c1c1c;
+            color: white;
             padding: 10px;
-            border: none; /* 테두리 없음 */
-            border-radius: 4px; /* 모서리 둥글게 */
-            cursor: pointer; /* 커서 모양 변경 */
-            width: 100%; /* 버튼 너비 */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
         }
         button:hover {
-            background-color: #333; /* 호버 시 색상 변경 */
+            background-color: #333;
         }
-        #result {
+        #message, #result {
             margin-top: 20px;
             font-size: 18px;
-            color: red; /* 결과 메시지 색상 */
+            color: red;
+        }
+        img {
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>문제 맞추기 게임</h1>
+        <h1>짝수 홀수 확인기 및 문제 맞추기 게임</h1>
     </header>
-    <div class="container">
+
+    <!-- 홀짝 게임 컨테이너 -->
+    <div class="container" id="evenOddContainer">
+        <h2>짝수 홀수 확인기</h2>
+        <p>숫자를 입력하세요:</p>
+        <input type="number" id="numberInput" placeholder="숫자 입력">
+        <button id="checkButton">확인</button>
+        <p id="message"></p>
+        <img id="resultImage" src="https://i.postimg.cc/tJZ6KNLz/2024-12-01-4-16-37.png" alt="결과 이미지">
+        <button id="nextButton">다음 페이지</button>
+    </div>
+
+    <!-- 문제 맞추기 게임 컨테이너 -->
+    <div class="container" id="gameContainer">
+        <h2>문제 맞추기 게임</h2>
         <p>정수형 자료형의 덧셈 연산자를 적으시오.</p>
         <input type="text" id="answer" placeholder="정답을 입력하세요">
         <button onclick="checkAnswer()">제출</button>
         <div id="result"></div>
+        <button id="backButton">이전 페이지</button>
     </div>
 
     <script>
-        // 변수 선언
+        // 초기 설정: 홀짝 게임 컨테이너를 보이게 함
+        document.getElementById('evenOddContainer').style.display = 'block';
+
+        // 짝수 홀수 확인기
+        const numberInput = document.getElementById('numberInput');
+        const checkButton = document.getElementById('checkButton');
+        const messageElement = document.getElementById('message');
+        const resultImage = document.getElementById('resultImage');
+        const nextButton = document.getElementById('nextButton');
+
+        checkButton.addEventListener('click', function() {
+            let userInput = numberInput.value;
+            let number = parseInt(userInput);
+
+            if (isNaN(number)) {
+                messageElement.innerText = '유효한 숫자를 입력해주세요.';
+                resultImage.src = "https://i.postimg.cc/8cMdYVJH/2024-12-01-4-21-35.png"; // 기본 이미지
+                return;
+            }
+
+            if (number % 2 === 0) {
+                messageElement.innerText = `${number}는 짝수입니다.`;
+                resultImage.src = "https://i.postimg.cc/JtXbk5xh/even.png"; // 짝수 이미지 URL
+            } else {
+                messageElement.innerText = `${number}는 홀수입니다.`;
+                resultImage.src = "https://i.postimg.cc/y3hgrnpX/odd.png"; // 홀수 이미지 URL
+            }
+
+            numberInput.value = '';
+        });
+
+        // 다음 페이지 버튼 클릭 시 문제 맞추기 게임으로 전환
+        nextButton.addEventListener('click', function() {
+            document.getElementById('evenOddContainer').style.display = 'none';
+            document.getElementById('gameContainer').style.display = 'block';
+        });
+
+        // 문제 맞추기 게임
         var correctAnswer = "+"; // 정답
-        var message; // 결과 메시지
 
-        // 정답 확인 함수
         function checkAnswer() {
-            // 사용자 입력값 가져오기
             var userAnswer = document.getElementById("answer").value;
+            var resultMessage;
 
-            // 조건문을 사용하여 정답 확인
             if (userAnswer === correctAnswer) {
-                message = "정답입니다!";
+                resultMessage = "정답입니다!";
                 document.body.style.backgroundColor = "#e0f7fa"; // 배경색 변경
             } else {
-                message = "틀렸습니다. 다시 시도해보세요.";
+                resultMessage = "틀렸습니다. 다시 시도해보세요.";
                 document.body.style.backgroundColor = "#ffebee"; // 배경색 변경
             }
 
-            // 결과 메시지 DOM 조작
-            document.getElementById("result").innerText = message;
+            document.getElementById("result").innerText = resultMessage;
         }
+
+        // 이전 페이지 버튼 클릭 시 홀짝 게임으로 전환
+        document.getElementById('backButton').addEventListener('click', function() {
+            document.getElementById('gameContainer').style.display = 'none';
+            document.getElementById('evenOddContainer').style.display = 'block';
+            document.body.style.backgroundColor = "#f5f5f5"; // 배경색 초기화
+            document.getElementById('result').innerText = ''; // 결과 메시지 초기화
+            document.getElementById('answer').value = ''; // 입력 필드 초기화
+        });
     </script>
 </body>
 </html>
-
-
-
